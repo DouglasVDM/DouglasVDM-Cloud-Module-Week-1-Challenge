@@ -61,6 +61,31 @@ Something about **SSM Agent isn't installed on the instance.**
 
 # Day 05
 1. I need to create a 2nd user with SSH access to my Amazon ubuntuVM instance. [How do I add new user accounts with SSH access to my Amazon EC2 Linux instance?](https://aws.amazon.com/premiumsupport/knowledge-center/new-user-accounts-linux-instance/) looks like a good 1st try documentation to attempt this challenge.
-2. 
+2. Every AWS EC2 Linux instance comes with a **default system user account**. Creating accounts for **New users** is much more secure than granting multiple users access to the default EC2 User Account. The default EC2 User Account can cause a lot of damage when used improperly.   to use their own files and workspaces
+3. [How to add a new user to the system as well as providing remote access to the new user](https://youtu.be/khPGZYh73fo)
+4. Connect to the Linux instance that you want to add new user on
+5. Use the ```sudo adduser jd_douglas``` command, followed by the name of the user you want to ad. This adds an entry in ```/etc/password``` file, and creates a ```jd_douglas``` group, and creates a home directory for the new account in the ```/home directory```
+6. To provide remote access to the ```jd_douglas``` account, create a ```.ssh``` directory in ```jd_douglas```'s ```home``` directory then create a file ```authorized_keys``` in ```.ssh``` directory which will later hold the ```public key```
+7. Switch to new user by using ```sudo su - jd_douglas``` to switch to jd_douglas directory so that newly created files have the proper ownership. 
+    > The cmd promp now says jd_douglas, showing that the SSH session has been swithched to the new account
+8. To provide remote access to the jd_douglas user, create the new key pair for user jd_douglas
+9. Navigate to the ```AWS EC2 Console```, left menu, under ```Network and Security``` click on ```Key Pairs``` then ```Create Key Pair```, next add a ```Key pair name``` = ```***********-keypair``` , click Create, save the file to a secure location
+> This is the only time to **SAVE** the file!!!
+10. ```mkdir .ssh```
+11. ```chmod 700 .ssh``` to change the file permissions of .ssh directory to allow ```only``` the ```file owner``` to ```READ, WRITE or OPEN``` the directory
+12. ```cd .ssh``` to change into the .ssh directory
+13. ```touch authorized_keys``` to create keys file
+14. ```chmod 600 authorized_keys``` to change the file permissions to allow ```only``` the ```file owner``` to ```READ or WRITE``` to the file
+15. Retrieve the ```public key``` for the key pair
+16. Open a new tab in terminal
+17. ```chmod 400 ***********-keypair.pem``` to set the file permissions so that ```only``` the ```file owner``` can ```READ``` the file
+18. ```ssh-keygen -y``` command to retrieve the public key
+19. Enter the path for the key
+20. Copy the key then move to the other terminal session
+21. ```vim authorized_keys``` to open authirized_keys file
+22. Paste the key in the file
+23. Test loggin into jd_douglas account using the private key
+24. ```ssh -i ***********-keypair.pem jd_douglas@ecs-***your public IP address***.compute-1.amazonaws.com```
+25. ```id``` shows the user and group information jd_douglas, the current user
 
 # Notes on the challenges
