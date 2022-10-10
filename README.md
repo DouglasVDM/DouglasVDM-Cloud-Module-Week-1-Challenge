@@ -93,3 +93,19 @@ Something about **SSM Agent isn't installed on the instance.**
 25. ```id``` shows the user and group information jd_douglas, the current user
 
 # Notes on the challenges
+
+## Day 05 Step 18
+
+### Tried to retrieve the public key, I got this error 
+
+> - ...@...-Inspiron-3670:~/Downloads$ ssh-keygen -y
+> - Enter file in which the key is (/home/.../.ssh/id_rsa): /home/.../...
+> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> - Permissions 0755 for '/home/.../...' are too open.
+> - It is required that your private key files are NOT accessible by others.
+> - This private key will be ignored.
+> - Load key "/home/.../...": bad permissions
+
+## My mistake was not completing the ```path to the .pem file```, including the .pem file + the extention *eg.* ```/home/.../.../***.pem```
