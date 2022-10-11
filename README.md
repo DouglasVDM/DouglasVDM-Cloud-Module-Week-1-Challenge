@@ -74,29 +74,29 @@ Something about **SSM Agent isn't installed on the instance.**
     > The cmd promp now says jd_douglas, showing that the SSH session has been swithched to the new account
 8. To provide remote access to the jd_douglas user, create the new key pair for user jd_douglas
 9. Navigate to the ```AWS EC2 Console```, left menu, under ```Network and Security``` click on ```Key Pairs``` then ```Create Key Pair```, next add a ```Key pair name``` = ```***********-keypair``` , click Create, save the file to a secure location
-> This is the only time to **SAVE** the file!!!
-10. ```mkdir .ssh```
+> This is the **ONLY** time to **SAVE** the file!!!
+10. In new user ```jd_douglas``` account, create ```.ssh``` directory by running ```mkdir .ssh```
 11. ```chmod 700 .ssh``` to change the file permissions of .ssh directory to allow ```only``` the ```file owner``` to ```READ, WRITE or OPEN``` the directory
 12. ```cd .ssh``` to change into the .ssh directory
-13. ```touch authorized_keys``` to create keys file
+13. ```touch authorized_keys``` to create authorized_keys file
 14. ```chmod 600 authorized_keys``` to change the file permissions to allow ```only``` the ```file owner``` to ```READ or WRITE``` to the file
 15. Retrieve the ```public key``` for the key pair
-16. Open a new tab in terminal
+16. Open a new tab in the terminal > navigate to the directory where the ****.pem is located
 17. ```chmod 400 ***********-keypair.pem``` to set the file permissions so that ```only``` the ```file owner``` can ```READ``` the file
 18. ```ssh-keygen -y``` command to retrieve the public key
-19. Enter the path for the key
-20. Copy the key then move to the other terminal session
+19. Enter the path for the key, **the full path including the .pem file extention**
+20. Copy the key displayed in the terminal then move to the other terminal session
 21. ```vim authorized_keys``` to open authirized_keys file
-22. Paste the key in the file
+22. Paste the key in the file (```:w``` to save the changes made to the file, ```:wq``` or ```:q``` to exit ```vim```)
 23. Test loggin into jd_douglas account using the private key
 24. ```ssh -i ***********-keypair.pem jd_douglas@ecs-***your public IP address***.compute-1.amazonaws.com```
 25. ```id``` shows the user and group information jd_douglas, the current user
 
 # Notes on the challenges
 
-## Day 05 Step 18
+## Day 05
 
-### Tried to retrieve the public key, I got this error 
+### Error > Step 18 Tried to retrieve the public key, I got this error 
 
 > - ...@...-Inspiron-3670:~/Downloads$ ssh-keygen -y
 > - Enter file in which the key is (/home/.../.ssh/id_rsa): /home/.../...
@@ -108,4 +108,9 @@ Something about **SSM Agent isn't installed on the instance.**
 > - This private key will be ignored.
 > - Load key "/home/.../...": bad permissions
 
-## My mistake was not completing the ```path to the .pem file```, including the .pem file + the extention *eg.* ```/home/.../.../***.pem```
+### My mistake was not completing the ```path to the .pem file```, including the .pem file + the extention *eg.* ```/home/.../.../***.pem```
+
+### Next error > Step 23: Test loggin into jd_douglas account using the private key
+> After adding the ```public key``` to ```authorizatoin_keys``` file, I tried to connect to the ubuntu instance, AWS refused due to authorization (siting "public key" as the reason).
+
+### I made a mistake by NOT changing to the ```new user account``` to create ```.ssh directory``` containing ```authorized_keys``` file where the public key is stored
